@@ -1,0 +1,5 @@
+NODE_ENV=production
+DATABASE_URL=postgresql://postgres:78degree@localhost:5432/atomionics
+NEXTAUTH_SECRET=mcy6G8dQkZKtGd2FFxyudPUH3eMK8u
+NEXTAUTH_URL=https://atomionics.monite.id
+NEXT_PUBLIC_API_URL=https://atomionics.monite.id

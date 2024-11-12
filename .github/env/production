@@ -1,0 +1,5 @@
+NODE_ENV=production
+DATABASE_URL=postgresql://atomionics:Atomionics2018@localhost:5432/atomionics 
+NEXTAUTH_SECRET=mcy6G8dQkZKtGd2FFxyudPUH3eMK8u
+NEXTAUTH_URL=https://www.atomionics.com
+NEXT_PUBLIC_API_URL=https://www.atomionics.com

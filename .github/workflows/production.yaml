@@ -1,0 +1,26 @@
+# .github/workflows/production.yml
+name: Production
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+  build:
+    runs-on: [self-hosted, Linux, X64, production, aws]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Copy .env
+        run: cp .github/env/production .env
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build app
+        run: pnpm run build
+      - name: Restart app
+        run: ./pm2-reload.sh

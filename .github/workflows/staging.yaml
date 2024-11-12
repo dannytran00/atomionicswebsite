@@ -1,0 +1,26 @@
+# .github/workflows/staging.yml
+name: Staging
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: [self-hosted, Linux, X64, main, digitalocean]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Copy .env
+        run: cp .github/env/staging .env
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build app
+        run: pnpm run build
+      - name: Restart app
+        run: ./pm2-reload.sh

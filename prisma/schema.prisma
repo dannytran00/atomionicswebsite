@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = [] // You won't need this in Prisma 3.X or higher.
+}
+
+model Session {
+  id            String   @id @default(cuid())
+  session_token String   @unique
+  user_id       String
+  expires       DateTime
+  user          User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("session")
+}
+
+enum Roles {
+  ADMIN
+  USER
+}
+
+model User {
+  id         String    @id @default(cuid())
+  email      String    @unique
+  password   String?
+  fullname   String?
+  image      String?
+  role       Roles     @default(ADMIN)
+  created_at DateTime  @default(now())
+  sessions   Session[]
+
+  @@map("user")
+}
+
+model Comment {
+  id       Int     @id @default(autoincrement())
+  name     String
+  position String?
+  periode  String?
+  content  String
+  photo    String?
+  active   Boolean @default(true)
+
+  @@map("comment")
+}
+
+model Team {
+  id        Int     @id @default(autoincrement())
+  name      String
+  position  String?
+  education String?
+  photo     String?
+  avatar    String?
+  advisor  Boolean @default(false)
+  active    Boolean @default(true)
+
+  @@map("team")
+}
+
+model Content {
+  id          Int     @id @default(autoincrement())
+  page        String
+  section     String
+  title       String?
+  sub         String?
+  description String?
+  image       String?
+  active      Boolean @default(true)
+
+  @@map("content")
+}
+
+model Media {
+  id       Int     @id @default(autoincrement())
+  name     String
+  description String?
+  location String?
+  link     String?
+  category String? //home,our-solution,career,about-us
+  tag      String? //home[main,solution,investors],our-solution[solution,slides,graviometer],career[main,core-values],about-us[main]
+  active   Boolean @default(true)
+
+  @@map("media")
+}
+
+model Social {
+  id       Int     @id @default(autoincrement())
+  link     String
+  location String
+  category String
+  tag      String? 
+  active   Boolean @default(true)
+
+  @@map("social")
+}
+
+model Elfsight {
+  id       Int     @id @default(autoincrement())
+  class     String
+  category String
+  active   Boolean @default(true)
+
+  @@map("elfsight")
+}
